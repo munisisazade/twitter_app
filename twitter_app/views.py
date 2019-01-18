@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 # Test
 # Create your views here.
 from twitter_app.forms import LoginForm, RegisterForm, PostForm
-from twitter_app.models import Post
+from twitter_app.models import Post, LikeModel
 
 
 def login_page_data():
@@ -76,7 +76,7 @@ def logout_view(request):
 
 def dashboard_view(request):
     context = {}
-    context["posts"] = Post.objects.filter(user=request.user)
+    context["posts"] = Post.objects.all()
     return render(request, "home/index.html", context)
 
 
@@ -94,7 +94,7 @@ def add_post_view(request):
             post.user = request.user
             post.save()
             context = {
-                "posts": Post.objects.filter(user=request.user)
+                "posts": Post.objects.all()
             }
             return render(request, "partials/post_list.html", context)
         else:
@@ -102,3 +102,27 @@ def add_post_view(request):
                 "save": False,
                 "message": form.errors
             })
+
+
+@login_required(login_url="/")
+def like_button(request):
+    post_id = request.POST.get("post_id")
+    post = Post.objects.filter(id=post_id).last()
+    if post:
+        like, status = LikeModel.objects.get_or_create(
+            user=request.user,
+            post=post
+        )
+        like.status = not like.status
+        like.save()
+        like_count = LikeModel.objects.filter(post=post, status=True).count()
+        post.like_count = like_count
+        post.save()
+        return JsonResponse({
+            "like_count": like_count,
+            "status": like.status
+        })
+    else:
+        return JsonResponse({
+            "status": "False"
+        })

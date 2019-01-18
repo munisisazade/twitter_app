@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, LikeModel
 
 
 # Register your models here.
@@ -11,3 +11,8 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'user', 'context', 'parent', 'created_at')
+
+
+@admin.register(LikeModel)
+class LikeModelAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'status', 'created_at')

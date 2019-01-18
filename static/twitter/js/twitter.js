@@ -50,4 +50,20 @@ $(document).ready(function () {
         });
         return false;
     });
+
+    $(document).on("click", ".like", function (e) {
+        var data = new FormData();
+        var count = $(this).find("ins");
+        data.append("post_id", $(this).attr("data-post-id"));
+        $.ajax({
+            url: $(this).data("action"),
+            method: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (data) {
+                count.text(data.like_count);
+            },
+        });
+    });
 });

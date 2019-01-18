@@ -7,6 +7,7 @@ class Post(models.Model):
                              on_delete=models.CASCADE)
     picture = models.ImageField(upload_to="post/",
                                 null=True, blank=True)
+    like_count = models.IntegerField(default=0)
     context = models.CharField(max_length=5000)
 
     # logs
@@ -32,3 +33,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return "{}".format(self)
+
+
+class LikeModel(models.Model):
+    post = models.ForeignKey("Post", on_delete=models.CASCADE)
+    user = models.ForeignKey("base_user.MyUser", on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} {}".format(self.post, self.user.get_full_name())

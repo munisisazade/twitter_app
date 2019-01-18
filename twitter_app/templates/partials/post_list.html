@@ -36,10 +36,10 @@
                                                                             </span>
                             </li>
                             <li>
-                                                                            <span class="like" data-toggle="tooltip"
+                                                                            <span class="like" data-action="{% url 'like' %}" data-post-id="{{ post.pk }}" data-toggle="tooltip"
                                                                                   title="like">
                                                                                 <i class="ti-heart"></i>
-                                                                                <ins>0</ins>
+                                                                                <ins>{{ post.like_count }}</ins>
                                                                             </span>
                             </li>
                         </ul>
