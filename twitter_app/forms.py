@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from .models import Post
 
 User = get_user_model()
 
@@ -16,3 +17,9 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("full_name", "username", "email", "password")
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["picture", "context"]

@@ -16,6 +16,11 @@ class Post(models.Model):
     def __str__(self):
         return "{}".format(self.user.get_full_name())
 
+    class Meta:
+        ordering = ("-id",)
+
+
+# modelin_adi  comment_set
 
 class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE)

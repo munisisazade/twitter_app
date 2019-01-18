@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 # Test
 # Create your views here.
-from twitter_app.forms import LoginForm, RegisterForm
+from twitter_app.forms import LoginForm, RegisterForm, PostForm
+from twitter_app.models import Post
 
 
 def login_page_data():
@@ -74,6 +76,7 @@ def logout_view(request):
 
 def dashboard_view(request):
     context = {}
+    context["posts"] = Post.objects.filter(user=request.user)
     return render(request, "home/index.html", context)
 
 
@@ -84,5 +87,18 @@ def timeline_view(request):
 
 @login_required(login_url='/')
 def add_post_view(request):
-    context = {}
-    return render(request, "accounts/detail.html", context)
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            context = {
+                "posts": Post.objects.filter(user=request.user)
+            }
+            return render(request, "partials/post_list.html", context)
+        else:
+            return JsonResponse({
+                "save": False,
+                "message": form.errors
+            })

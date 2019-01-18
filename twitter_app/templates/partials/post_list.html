@@ -1,0 +1,149 @@
+{% load static %}
+{% for post in posts %}
+    <div class="central-meta item">
+        <div class="user-post">
+            <div class="friend-info">
+                <figure>
+                    <img src="{{ post.user.get_avatar }}"
+                         alt="">
+                </figure>
+                <div class="friend-name">
+                    <ins>
+                        <a href="#"
+                           title="">{{ post.user.get_full_name }}</a>
+                    </ins>
+                    <span>published: {{ post.created_at|date:"F, d Y H:i" }}</span>
+                </div>
+                <div class="post-meta">
+                    {% if post.picture %}
+                        <img src="{{ post.picture.url }}"
+                             alt="">
+                    {% endif %}
+
+                    <div class="description">
+
+                        <p>
+                            {{ post.context }}
+                        </p>
+                    </div>
+                    <div class="we-video-info">
+                        <ul>
+                            <li>
+                                                                            <span class="comment" data-toggle="tooltip"
+                                                                                  title="Comments">
+                                                                                <i class="fa fa-comments-o"></i>
+                                                                                <ins>0</ins>
+                                                                            </span>
+                            </li>
+                            <li>
+                                                                            <span class="like" data-toggle="tooltip"
+                                                                                  title="like">
+                                                                                <i class="ti-heart"></i>
+                                                                                <ins>0</ins>
+                                                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="coment-area">
+                <ul class="we-comet">
+                    {% for comment in post.comment_set.all %}
+                        <li>
+                            <div class="comet-avatar">
+                                <img src="{{ request.user.get_avatar }}"
+                                     alt="">
+                            </div>
+                            <div class="we-comment">
+                                <div class="coment-head">
+                                    <h5><a href="time-line.html" title="">Jason
+                                        borne</a></h5>
+                                    <span>1 year ago</span>
+                                    <a class="we-reply" href="#"
+                                       title="Reply"><i
+                                            class="fa fa-reply"></i></a>
+                                </div>
+                                <p>we are working for the dance and sing
+                                    songs.
+                                    this
+                                    car
+                                    is very awesome for the youngster.
+                                    please
+                                    vote
+                                    this
+                                    car and like our post</p>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="comet-avatar">
+                                        <img src="{% static 'twitter/images/resources/comet-2.jpg' %}"
+                                             alt="">
+                                    </div>
+                                    <div class="we-comment">
+                                        <div class="coment-head">
+                                            <h5><a href="time-line.html"
+                                                   title="">alexendra
+                                                dadrio</a></h5>
+                                            <span>1 month ago</span>
+                                            <a class="we-reply" href="#"
+                                               title="Reply"><i
+                                                    class="fa fa-reply"></i></a>
+                                        </div>
+                                        <p>yes, really very awesome car i
+                                            see
+                                            the
+                                            features of this car in the
+                                            official
+                                            website
+                                            of <a href="#"
+                                                  title="">#Mercedes-Benz</a>
+                                            and really impressed :-)</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="comet-avatar">
+                                        <img src="images/resources/comet-3.jpg"
+                                             alt="">
+                                    </div>
+                                    <div class="we-comment">
+                                        <div class="coment-head">
+                                            <h5><a href="time-line.html"
+                                                   title="">Olivia</a></h5>
+                                            <span>16 days ago</span>
+                                            <a class="we-reply" href="#"
+                                               title="Reply"><i
+                                                    class="fa fa-reply"></i></a>
+                                        </div>
+                                        <p>i like lexus cars, lexus cars are
+                                            most
+                                            beautiful with the awesome
+                                            features,
+                                            but
+                                            this car is really outstanding
+                                            than
+                                            lexus</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endfor %}
+                    <li class="post-comment">
+                        <div class="comet-avatar">
+                            <img src="{{ request.user.get_avatar }}"
+                                 alt="">
+                        </div>
+                        <div class="post-comt-box">
+                            <form method="post">
+                                                                            <textarea
+                                                                                    placeholder="Post your comment"></textarea>
+
+
+                                <button type="submit"></button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endfor %}
