@@ -35,10 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'easy_thumbnails',
     'base_user',
     'twitter_app',
 ]
+
+# celery store result
+CELERY_RESULT_BACKEND = 'django-db'
 
 AUTH_USER_MODEL = 'base_user.MyUser'
 
