@@ -2,6 +2,9 @@ from django.db import models
 
 
 # Create your models here.
+from twitter_app.helper import token_generator
+
+
 class Post(models.Model):
     user = models.ForeignKey('base_user.MyUser',
                              on_delete=models.CASCADE)
@@ -45,3 +48,15 @@ class LikeModel(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.post, self.user.get_full_name())
+
+
+class EmailVerification(models.Model):
+    user = models.ForeignKey("base_user.MyUser", on_delete=models.CASCADE)
+    token = models.CharField(max_length=255, default=token_generator)
+    expire = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} {}".format(self.user.get_full_name(), self.token)

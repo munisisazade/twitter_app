@@ -6,3 +6,8 @@ import time
 def test_task(a, b):
     time.sleep(5)
     return a + b
+
+
+@shared_task
+def email_verification(email):
+    pass
