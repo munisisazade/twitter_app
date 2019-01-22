@@ -2,6 +2,8 @@ from django.db import models
 
 
 # Create your models here.
+from django.urls import reverse
+
 from twitter_app.helper import token_generator
 
 
@@ -57,6 +59,9 @@ class EmailVerification(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_verification_url(self):
+        return reverse("verify") + "?uuid={}&token={}".format(self.user.id, self.token)
 
     def __str__(self):
         return "{} {}".format(self.user.get_full_name(), self.token)

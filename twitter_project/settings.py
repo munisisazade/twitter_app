@@ -27,6 +27,13 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'cavidan.mahmudoglu@gmail.com'
+EMAIL_HOST_PASSWORD = 'zaur5230'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = "Twitter Project <%s>" % EMAIL_HOST_USER
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,10 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'celery',
     'django_celery_results',
     'easy_thumbnails',
     'base_user',
-    'twitter_app',
+    'twitter_app.apps.TwitterAppConfig',
 ]
 
 # celery store result
