@@ -141,7 +141,6 @@ def follow_view(request):
         })
 
 
-
 @login_required(login_url="/")
 def like_button(request):
     post_id = request.POST.get("post_id")
