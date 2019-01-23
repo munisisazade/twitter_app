@@ -9,7 +9,7 @@
                 </figure>
                 <div class="friend-name">
                     <ins>
-                        <a href="#"
+                        <a href="{{ post.user.get_timeline_url }}"
                            title="">{{ post.user.get_full_name }}</a>
                     </ins>
                     <span>published: {{ post.created_at|date:"F, d Y H:i" }}</span>

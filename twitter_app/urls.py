@@ -10,5 +10,6 @@ urlpatterns = [
     path('add/post/', views.add_post_view, name="add-post"),
     path('like/', views.like_button, name="like"),
     path('dashboard/', views.dashboard_view, name="dashboard"),
-    path('timeline/slug/', views.timeline_view, name="timeline"),
+    path('timeline/<str:slug>/', views.timeline_view, name="timeline"),
+    path('follow/', views.follow_view, name="follow"),
 ]

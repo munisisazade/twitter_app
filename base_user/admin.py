@@ -27,7 +27,7 @@ class MyUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = MyUserChangeForm
     add_form = MyUserCreationForm
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'slug')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('first_name', 'last_name', 'username', 'email')
     ordering = ('-date_joined',)

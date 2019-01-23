@@ -2,11 +2,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
 # Test
 # Create your views here.
 from twitter_app.forms import LoginForm, RegisterForm, PostForm
-from twitter_app.models import Post, LikeModel, EmailVerification
+from twitter_app.models import Post, LikeModel, EmailVerification, Follow
 from twitter_app.tasks import email_verification
+
+User = get_user_model()
 
 
 def login_page_data():
@@ -75,15 +78,21 @@ def logout_view(request):
     return redirect("home")
 
 
+@login_required(login_url="/")
 def dashboard_view(request):
     context = {}
     context["posts"] = Post.objects.all()
     return render(request, "home/index.html", context)
 
 
-def timeline_view(request):
+@login_required(login_url="/")
+def timeline_view(request, slug):
     context = {}
-    return render(request, "accounts/detail.html", context)
+    user = User.objects.filter(slug=slug).last()
+    if user:
+        context["user"] = user
+        context["posts"] = Post.objects.filter(user=user)
+        return render(request, "accounts/detail.html", context)
 
 
 @login_required(login_url='/')
@@ -103,6 +112,34 @@ def add_post_view(request):
                 "save": False,
                 "message": form.errors
             })
+
+
+@login_required(login_url="/")
+def follow_view(request):
+    from_user = request.user
+    to_user = User.objects.filter(pk=request.POST.get("pk")).last()
+    if from_user != to_user:
+        follow, created = Follow.objects.get_or_create(
+            from_user=from_user,
+            to_user=to_user
+        )
+        if created:
+            return JsonResponse({
+                "follow_count": to_user.get_followers_count(),
+                "status": True
+            })
+        else:
+            follow.status = not follow.status
+            follow.save()
+            return JsonResponse({
+                "follow_count": to_user.get_followers_count(),
+                "status": follow.status
+            })
+    else:
+        return JsonResponse({
+            "status": False
+        })
+
 
 
 @login_required(login_url="/")

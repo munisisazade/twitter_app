@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 from django.urls import reverse
 
@@ -50,6 +49,20 @@ class LikeModel(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.post, self.user.get_full_name())
+
+
+class Follow(models.Model):
+    from_user = models.ForeignKey('base_user.MyUser', related_name="following",
+                                  on_delete=models.CASCADE)
+    to_user = models.ForeignKey('base_user.MyUser', related_name="followers",
+                                on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} => {}".format(self.from_user.get_full_name(), self.to_user.get_full_name())
 
 
 class EmailVerification(models.Model):

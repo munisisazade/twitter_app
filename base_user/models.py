@@ -1,12 +1,16 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.conf import settings
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from base_user.tools.common import get_user_profile_photo_file_name, GENDER
+from twitter_app.models import Follow
+
 USER_MODEL = settings.AUTH_USER_MODEL
 from easy_thumbnails.files import get_thumbnailer
+
 
 # Customize User model
 class MyUser(AbstractBaseUser, PermissionsMixin):
@@ -28,7 +32,10 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=255, blank=True)
     email = models.EmailField(_('email address'), max_length=255)
     profile_picture = models.ImageField(upload_to=get_user_profile_photo_file_name, null=True, blank=True)
+    background = models.ImageField(upload_to=get_user_profile_photo_file_name, null=True, blank=True)
     gender = models.IntegerField(choices=GENDER, verbose_name="cinsi", null=True, blank=True)
+
+    slug = models.SlugField(max_length=255, null=True, blank=True)
 
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin '
@@ -50,7 +57,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'İstifadəçi'
         verbose_name_plural = 'İstifadəçilər'
 
-
     def get_full_name(self):
         """
             Returns the first_name plus the last_name, with a space in between.
@@ -63,6 +69,27 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
             Returns the short name for the user.
         """
         return self.first_name
+
+    def get_timeline_url(self):
+        return reverse("timeline", kwargs={"slug": self.slug})
+
+    def get_background(self):
+        if self.background:
+            return self.background.url
+        else:
+            return "/static/twitter/images/resources/timeline-1.jpg"
+
+    def get_following_count(self):
+        return Follow.objects.filter(
+            from_user=self,
+            status=True
+        ).count()
+
+    def get_followers_count(self):
+        return Follow.objects.filter(
+            to_user=self,
+            status=True
+        ).count()
 
     def get_avatar(self):
         if self.profile_picture:

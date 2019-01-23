@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'celery',
     'django_celery_results',
     'easy_thumbnails',
-    'base_user',
+    'base_user.apps.BaseUserConfig',
     'twitter_app.apps.TwitterAppConfig',
 ]
 

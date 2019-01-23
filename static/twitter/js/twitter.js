@@ -66,4 +66,31 @@ $(document).ready(function () {
             },
         });
     });
+
+    // follow user
+    $(".follow").click(function (e) {
+        e.preventDefault();
+        console.log("yess");
+        var form = new FormData();
+        var url = $(this).attr("data-follow-url");
+        var profile_id = $(this).attr("data-follow-id");
+        var text = $(this);
+        form.append("pk", profile_id);
+        $.ajax({
+            url: url,
+            data: form,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $(".total_count").html(data.follow_count);
+                if (data.status) {
+                    text.text("Followed");
+                }
+                else {
+                    text.text("Follow");
+                }
+            }
+        })
+    });
 });
