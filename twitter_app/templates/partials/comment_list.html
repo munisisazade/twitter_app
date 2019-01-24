@@ -1,0 +1,142 @@
+{% load humanize %}
+{% if post_comment %}
+    <li>
+        <div class="comet-avatar">
+            <img src="{{ comment.user.get_avatar }}"
+                 alt="">
+        </div>
+        <div class="we-comment">
+            <div class="coment-head">
+                <h5><a href="{{ comment.user.get_timeline_url }}" title="">{{ comment.user.get_full_name }}</a></h5>
+                <span>{{ comment.created_at|naturaltime }}</span>
+                <a class="we-reply" href="#"
+                   title="Reply"><i
+                        class="fa fa-reply"></i></a>
+            </div>
+            <p>{{ comment.context }}</p>
+        </div>
+        {% comment %}<ul>
+        <li>
+            <div class="comet-avatar">
+                <img src="{% static 'twitter/images/resources/comet-2.jpg' %}"
+                     alt="">
+            </div>
+            <div class="we-comment">
+                <div class="coment-head">
+                    <h5><a href="time-line.html"
+                           title="">alexendra
+                        dadrio</a></h5>
+                    <span>1 month ago</span>
+                    <a class="we-reply" href="#"
+                       title="Reply"><i
+                            class="fa fa-reply"></i></a>
+                </div>
+                <p>yes, really very awesome car i
+                    see
+                    the
+                    features of this car in the
+                    official
+                    website
+                    of <a href="#"
+                          title="">#Mercedes-Benz</a>
+                    and really impressed :-)</p>
+            </div>
+        </li>
+        <li>
+            <div class="comet-avatar">
+                <img src="images/resources/comet-3.jpg"
+                     alt="">
+            </div>
+            <div class="we-comment">
+                <div class="coment-head">
+                    <h5><a href="time-line.html"
+                           title="">Olivia</a></h5>
+                    <span>16 days ago</span>
+                    <a class="we-reply" href="#"
+                       title="Reply"><i
+                            class="fa fa-reply"></i></a>
+                </div>
+                <p>i like lexus cars, lexus cars are
+                    most
+                    beautiful with the awesome
+                    features,
+                    but
+                    this car is really outstanding
+                    than
+                    lexus</p>
+            </div>
+        </li>
+    </ul>{% endcomment %}
+    </li>
+{% else %}
+    {% for comment in comment_list %}
+        <li>
+            <div class="comet-avatar">
+                <img src="{{ comment.user.get_avatar }}"
+                     alt="">
+            </div>
+            <div class="we-comment">
+                <div class="coment-head">
+                    <h5><a href="{{ comment.user.get_timeline_url }}" title="">{{ comment.user.get_full_name }}</a></h5>
+                    <span>{{ comment.created_at|naturaltime }}</span>
+                    <a class="we-reply" href="#"
+                       title="Reply"><i
+                            class="fa fa-reply"></i></a>
+                </div>
+                <p>{{ comment.context }}</p>
+            </div>
+            {% comment %}<ul>
+        <li>
+            <div class="comet-avatar">
+                <img src="{% static 'twitter/images/resources/comet-2.jpg' %}"
+                     alt="">
+            </div>
+            <div class="we-comment">
+                <div class="coment-head">
+                    <h5><a href="time-line.html"
+                           title="">alexendra
+                        dadrio</a></h5>
+                    <span>1 month ago</span>
+                    <a class="we-reply" href="#"
+                       title="Reply"><i
+                            class="fa fa-reply"></i></a>
+                </div>
+                <p>yes, really very awesome car i
+                    see
+                    the
+                    features of this car in the
+                    official
+                    website
+                    of <a href="#"
+                          title="">#Mercedes-Benz</a>
+                    and really impressed :-)</p>
+            </div>
+        </li>
+        <li>
+            <div class="comet-avatar">
+                <img src="images/resources/comet-3.jpg"
+                     alt="">
+            </div>
+            <div class="we-comment">
+                <div class="coment-head">
+                    <h5><a href="time-line.html"
+                           title="">Olivia</a></h5>
+                    <span>16 days ago</span>
+                    <a class="we-reply" href="#"
+                       title="Reply"><i
+                            class="fa fa-reply"></i></a>
+                </div>
+                <p>i like lexus cars, lexus cars are
+                    most
+                    beautiful with the awesome
+                    features,
+                    but
+                    this car is really outstanding
+                    than
+                    lexus</p>
+            </div>
+        </li>
+    </ul>{% endcomment %}
+        </li>
+    {% endfor %}
+{% endif %}

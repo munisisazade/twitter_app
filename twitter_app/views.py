@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 # Test
 # Create your views here.
 from twitter_app.forms import LoginForm, RegisterForm, PostForm
-from twitter_app.models import Post, LikeModel, EmailVerification, Follow
+from twitter_app.models import Post, LikeModel, EmailVerification, Follow, Comment
 from twitter_app.tasks import email_verification
 
 User = get_user_model()
@@ -163,6 +163,31 @@ def like_button(request):
         return JsonResponse({
             "status": "False"
         })
+
+
+@login_required(login_url="/")
+def comment_view(request):
+    if request.method == "POST":
+        comment = request.POST.get("comment")
+        post_id = request.POST.get("post")
+        print(post_id)
+        print(comment)
+        post = Post.objects.filter(pk=post_id).last()
+        if post:
+            Comment.objects.create(
+                post=post,
+                user=request.user,
+                context=comment
+            )
+            context = {}
+            context["comment_list"] = Comment.objects.filter(post=post)
+            return render(request, "partials/comment_list.html", context)
+
+        return JsonResponse({
+            "status": True
+        })
+    else:
+        return redirect("home")
 
 
 def verify_view(request):

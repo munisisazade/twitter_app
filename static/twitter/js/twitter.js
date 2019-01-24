@@ -86,11 +86,44 @@ $(document).ready(function () {
                 $(".total_count").html(data.follow_count);
                 if (data.status) {
                     text.text("Followed");
-                }
-                else {
+                } else {
                     text.text("Follow");
                 }
             }
         })
+    });
+
+    // Comment
+    $('.comment-form').each(function () {
+        $(this).find('textarea').keypress(function (e) {
+            // Enter pressed?
+            if (e.which == 10 || e.which == 13) {
+                // alert("This form submitted");
+                $(this.form).submit();
+            }
+        });
+    });
+
+    $(".comment-form").submit(function (e) {
+        e.preventDefault();
+        var form = new FormData();
+        var post_id = $(this).find("input[name=post]").val();
+        var url = $(this).attr("data-action");
+        var textarea = $(".post-comment-" + post_id);
+        form.append("post", post_id);
+        form.append("comment", textarea.html());
+        console.log(textarea.html());
+        $.ajax({
+            url: url,
+            data: form,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                textarea.val("");
+                $(".we-comet").prepend(data);
+            }
+        });
+        return false;
     });
 });
