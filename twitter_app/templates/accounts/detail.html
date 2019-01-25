@@ -6,7 +6,8 @@
             <figure><img src="{{ user.get_background }}" alt=""></figure>
             <div class="add-btn">
                 <span><b class="total_count">{{ user.get_followers_count }}</b> followers</span>
-                <a href="#" title="" class="follow" data-follow-url="{% url 'follow' %}" data-follow-id="{{ user.pk }}" data-ripple="">Follow</a>
+                <a href="#" title="" class="follow" data-follow-url="{% url 'follow' %}" data-follow-id="{{ user.pk }}"
+                   data-ripple="">Follow</a>
             </div>
             <form class="edit-phto">
                 <i class="fa fa-camera-retro"></i>
@@ -48,15 +49,15 @@
             </div>
         </div>
     </section><!-- top area -->
-
-    <section>
-        <div class="gap gray-bg">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row" id="page-contents">
-                            <div class="col-lg-3">
-                                {% comment %}<aside class="sidebar static">
+    {% block settings %}
+        <section>
+            <div class="gap gray-bg">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row" id="page-contents">
+                                <div class="col-lg-3">
+                                    {% comment %}<aside class="sidebar static">
                                     <div class="widget">
                                         <h4 class="widget-title">Socials</h4>
                                         <ul class="socials">
@@ -201,14 +202,14 @@
                                         </ul>
                                     </div><!-- who's following -->
                                 </aside>{% endcomment %}
-                            </div><!-- sidebar -->
-                            <div class="col-lg-6">
-                                <div class="loadMore">
-                                    {% include "partials/post_list.html" %}
-                                </div>
-                            </div><!-- centerl meta -->
-                            <div class="col-lg-3">
-                                {% comment %}<aside class="sidebar static">
+                                </div><!-- sidebar -->
+                                <div class="col-lg-6">
+                                    <div class="loadMore">
+                                        {% include "partials/post_list.html" %}
+                                    </div>
+                                </div><!-- centerl meta -->
+                                <div class="col-lg-3">
+                                    {% comment %}<aside class="sidebar static">
                                     <div class="widget">
                                         <div class="banner medium-opacity bluesh">
                                             <div style="background-image: url(images/resources/baner-widgetbg.jpg)"
@@ -417,11 +418,12 @@
                                         </div>
                                     </div><!-- friends list sidebar -->
                                 </aside>{% endcomment %}
-                            </div><!-- sidebar -->
+                                </div><!-- sidebar -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endblock %}
 {% endblock %}

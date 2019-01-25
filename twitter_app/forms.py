@@ -19,6 +19,24 @@ class RegisterForm(forms.ModelForm):
         fields = ("full_name", "username", "email", "password")
 
 
+class UserSettingsForm(forms.ModelForm):
+    current_password = forms.CharField()
+    confirm_password = forms.CharField()
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email")
+
+    def clean_confirm_password(self):
+        super(UserSettingsForm, self).clean_confirm_password()
+        password1 =  self.cleaned_data.get("current_password")
+        password2 = self.cleaned_data.get("confirm_password")
+        if password1 == password2:
+            pass
+        else:
+            raise forms.ValidationError("Password don't match")
+
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post

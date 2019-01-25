@@ -11,6 +11,7 @@ urlpatterns = [
     path('like/', views.like_button, name="like"),
     path('comment/', views.comment_view, name="comment"),
     path('dashboard/', views.dashboard_view, name="dashboard"),
+    path('settings/', views.user_settings_view, name="settings"),
     path('timeline/<str:slug>/', views.timeline_view, name="timeline"),
     path('follow/', views.follow_view, name="follow"),
 ]

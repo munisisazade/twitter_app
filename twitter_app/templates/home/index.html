@@ -67,9 +67,9 @@
                                 <i class="ti-search"></i>
                             </a>
                             <div class="searched">
-                                <form method="post" class="form-search">
-                                    <input type="text" placeholder="Search Friend">
-                                    <button data-ripple><i class="ti-search"></i></button>
+                                <form method="get" class="form-search">
+                                    <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search Friend">
+                                    <button type="submit" onclick="this.form.submit()" data-ripple><i class="ti-search"></i></button>
                                 </form>
                             </div>
                         </li>

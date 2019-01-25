@@ -5,9 +5,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 # Test
 # Create your views here.
-from twitter_app.forms import LoginForm, RegisterForm, PostForm
+from twitter_app.forms import LoginForm, RegisterForm, PostForm, UserSettingsForm
 from twitter_app.models import Post, LikeModel, EmailVerification, Follow, Comment
 from twitter_app.tasks import email_verification
+from django.db.models import Q
 
 User = get_user_model()
 
@@ -81,7 +82,15 @@ def logout_view(request):
 @login_required(login_url="/")
 def dashboard_view(request):
     context = {}
-    context["posts"] = Post.objects.all()
+    if "q" in request.GET:
+        query = request.GET.get("q")
+        context["posts"] = Post.objects.filter(
+            Q(context__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query)
+        )
+    else:
+        context["posts"] = Post.objects.all()
     return render(request, "home/index.html", context)
 
 
@@ -209,3 +218,22 @@ def verify_view(request):
             return render(request, "home/index.html", context)
     else:
         return redirect("home")
+
+
+@login_required(login_url="/")
+def user_settings_view(request):
+    context = {}
+    if request.method == "POST":
+        form = UserSettingsForm(request.POST)
+        if form.is_valid():
+            if request.user.check_password(form.cleaned_data.get("confirm_password")):
+                form.save()
+                return redirect("home")
+            else:
+                context["form"] = form
+                return render(request, "accounts/settings.html", context)
+        else:
+            context["form"] = form
+            return render(request, "accounts/settings.html", context)
+    else:
+        return render(request, "accounts/settings.html", context)
