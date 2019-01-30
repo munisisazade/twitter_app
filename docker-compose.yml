@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  postgres:
+    container_name:  postgres-db
+    image:           postgres:9.6.6
+    restart: "always"
+    ports:
+      - 5432:5432 # Bind host port 5432 to PostgreSQL port 5432
+    volumes:
+      - ./pgdb:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - LC_ALL=C.UTF-8
+
+
+  web:
+    container_name: twitter
+    build: .
+    restart: "always"
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=twitter.munisisazade.com
+      - VIRTUAL_PORT=8020
+      - TIMEOUT=300
+      - HTTP_PORT=8020
+      - STATS_PORT=8021
+    volumes:
+      - .:/code
+    ports:
+      - "8020:8020"
+    links:
+      - postgres
+    depends_on:
+      - "postgres"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
