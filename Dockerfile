@@ -19,7 +19,7 @@ RUN /venv/bin/pip install --no-cache-dir -r /requirements.txt
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 ADD . ${APP_ROOT}
-COPY mime.types /etc/mime.types
+#COPY mime.types /etc/mime.types
 
 # uWSGI will listen on this port
 EXPOSE 8020
