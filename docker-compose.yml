@@ -14,6 +14,32 @@ services:
     environment:
       - LC_ALL=C.UTF-8
 
+  redis:
+    image: redis:4.0.11
+    container_name: redis
+    restart: "always"
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redisdb:/var/lib/redis
+
+  celery:
+    restart: "always"
+    build:
+      context: .
+      dockerfile: celery.dockerfile
+    container_name: celery
+    env_file: .env
+    command: celery --app=embahome.celery:app worker -B --loglevel=INFO
+    volumes:
+      - .:/src
+    links:
+      - redis
+      - postgres
+    depends_on:
+      - "redis"
+      - "postgres"
+
 
   web:
     container_name: twitter
@@ -32,8 +58,10 @@ services:
       - "8020:8020"
     links:
       - postgres
+      - celery
     depends_on:
       - "postgres"
+      - "celery"
 
 networks:
   default:
