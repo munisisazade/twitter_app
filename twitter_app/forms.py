@@ -28,8 +28,7 @@ class UserSettingsForm(forms.ModelForm):
         fields = ("first_name", "last_name", "email")
 
     def clean_confirm_password(self):
-        super(UserSettingsForm, self).clean_confirm_password()
-        password1 =  self.cleaned_data.get("current_password")
+        password1 = self.cleaned_data.get("current_password")
         password2 = self.cleaned_data.get("confirm_password")
         if password1 == password2:
             pass
